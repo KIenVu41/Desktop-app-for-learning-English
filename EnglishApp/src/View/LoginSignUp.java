@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
@@ -42,7 +43,7 @@ public class LoginSignUp extends JFrame implements ActionListener{
      private JTextField textField_1;
      private JPasswordField passwordField;
      private JPasswordField passwordField_1;
-     //int xx,xy;
+    
 
     public LoginSignUp(){
        setBackground(Color.GREEN);
@@ -69,22 +70,7 @@ public class LoginSignUp extends JFrame implements ActionListener{
 		
        JLabel label = new JLabel("");
 		
-       /*label.addMouseListener(new MouseAdapter() {
-	    @Override
-	    public void mousePressed(MouseEvent e) {			
-		xx = e.getX();
-	xy = e.getY();
-			}
-		});
-	label.addMouseMotionListener(new MouseMotionAdapter() {
-	    @Override
-	 public void mouseDragged(MouseEvent arg0) {
-				
-				int x = arg0.getXOnScreen();
-	            int y = arg0.getYOnScreen();
-	            LoginSignUp.this.setLocation(x - xx, y - xy);  
-			}
-		});*/
+       
 	label.setBounds(-38, 0, 420, 275);
 	label.setVerticalAlignment(SwingConstants.TOP);
 	label.setIcon(new ImageIcon(LoginSignUp.class.getResource("/images/bg.jpg")));
@@ -105,26 +91,30 @@ public class LoginSignUp extends JFrame implements ActionListener{
         contentPane.add(lb_member);
         contentPane.add(lb_signin);
         
-	JButton button = new JButton("Sign Up");
+	JButton btn_signUp = new JButton("Sign Up");
         
-	button.setForeground(Color.WHITE);
-	button.setBackground(new Color(241, 57, 83));
-	button.setBounds(395, 380, 283, 36);
-	contentPane.add(button);
-		
+	btn_signUp.setForeground(Color.WHITE);
+	btn_signUp.setBackground(new Color(241, 57, 83));
+	btn_signUp.setBounds(395, 380, 283, 36);
+	contentPane.add(btn_signUp);
+	
+        // username textfield
 	textField = new JTextField();
 	textField.setBounds(395, 83, 283, 36);
 	contentPane.add(textField);
 	textField.setColumns(10);
+        
 	// username
 	JLabel lblUsername = new JLabel("USERNAME");
 	lblUsername.setBounds(395, 58, 114, 14);
 	contentPane.add(lblUsername);
+        
 	// email	
 	JLabel lblEmail = new JLabel("EMAIL");
 	lblEmail.setBounds(395, 132, 54, 14);
 	contentPane.add(lblEmail);
-		
+        
+	//email textfield	
 	textField_1 = new JTextField();
 	textField_1.setColumns(10);
 	textField_1.setBounds(395, 157, 283, 36);
@@ -154,15 +144,42 @@ public class LoginSignUp extends JFrame implements ActionListener{
 		}
 	});
         
+        // 
         lb_signin.addMouseListener(new MouseAdapter() {
             @Override
 		public void mouseClicked(MouseEvent arg0) {				
                     JFrame fr = new JFrame("Log In");
-                    setVisible(false);
                     fr.setVisible(true);
+                    fr.setSize(500,500);
+                    fr.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    fr.setLocationRelativeTo(null);
+              
+                    fr.setLayout(null);
+                    dispose();
+                    
+                    JButton back = new JButton("Back");
+                    back.setBounds(300, 250, 100, 100);
+                    fr.add(back);
+                    back.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                             setVisible(true);
+                             fr.setVisible(false);
+                        }
+                        
+                    });
 		}
             
         });
+        
+        // checking for empty field
+        btn_signUp.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                checkBlank();
+           }
+       });
+        
 	lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
 	lbl_close.setForeground(new Color(241, 57, 83));
 	lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -170,7 +187,13 @@ public class LoginSignUp extends JFrame implements ActionListener{
 	contentPane.add(lbl_close);
 }
         
-    
+    private boolean checkBlank(){
+        if(textField.getText().trim().equals("") || passwordField_1.getText().trim().equals(null) || textField_1.getText().trim().equals(null) ){
+            JOptionPane.showMessageDialog(contentPane, "field can't be empty");
+            return false;
+        }
+        return true;     
+    }
     
     public static void main(String[] args) { 
         new LoginSignUp().setVisible(true);  
