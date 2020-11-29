@@ -5,10 +5,12 @@
  */
 package Controller;
 
+import View.LoginSignUp;
+
 /**
  *
  * @author Admin
  */
 public class LoginController {
-    
+    private LoginSignUp lg;
 }

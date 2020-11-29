@@ -68,10 +68,8 @@ public class LoginSignUp extends JFrame implements ActionListener{
        lblNewLabel.setBounds(139, 305, 84, 27);
        panel.add(lblNewLabel);
 		
-       JLabel label = new JLabel("");
-		
-       
-	label.setBounds(-38, 0, 420, 275);
+       JLabel label = new JLabel(""); 
+        label.setBounds(-38, 0, 420, 275);
 	label.setVerticalAlignment(SwingConstants.TOP);
 	label.setIcon(new ImageIcon(LoginSignUp.class.getResource("/images/bg.jpg")));
 	panel.add(label);
@@ -135,7 +133,8 @@ public class LoginSignUp extends JFrame implements ActionListener{
 	passwordField_1 = new JPasswordField();
 	passwordField_1.setBounds(395, 293, 283, 36);
 	contentPane.add(passwordField_1);
-		
+	
+        // close button
 	JLabel lbl_close = new JLabel("X");
 	lbl_close.addMouseListener(new MouseAdapter() {
 		@Override
@@ -144,33 +143,72 @@ public class LoginSignUp extends JFrame implements ActionListener{
 		}
 	});
         
-        // 
+        // sign in
         lb_signin.addMouseListener(new MouseAdapter() {
             @Override
 		public void mouseClicked(MouseEvent arg0) {				
                     JFrame fr = new JFrame("Log In");
-                    fr.setVisible(true);
-                    fr.setSize(500,500);
-                    fr.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    fr.setSize(380, 476);
                     fr.setLocationRelativeTo(null);
-              
+                    fr.setResizable(false);
+                    fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
+                    fr.setVisible(true);
                     fr.setLayout(null);
                     dispose();
                     
-                    JButton back = new JButton("Back");
-                    back.setBounds(300, 250, 100, 100);
-                    fr.add(back);
-                    back.addActionListener(new ActionListener() {
+                    
+                   JLabel lb_member = new JLabel("Don't have an account yet?");
+                    JLabel lb_signUp = new JLabel("Sign Up");
+                    lb_signUp.setFont(new Font("Courier", Font.BOLD,14));
+                    lb_member.setBounds(70, 270, 160, 14);
+                    lb_signUp.setBounds(225, 270, 133, 14);
+                    fr.add(lb_member);
+                    fr.add(lb_signUp);
+                    
+                    //  sign up if you don't have an account
+                    lb_signUp.addMouseListener(new MouseAdapter() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
-                             setVisible(true);
-                             fr.setVisible(false);
-                        }
-                        
-                    });
-		}
-            
+                        public void mouseClicked(MouseEvent arg0) {				
+                            setVisible(true);
+                            fr.setVisible(false);
+                    }
+	});
+           //Login
+                   JLabel jlb = new JLabel();
+                   jlb.setText("Log In");
+                   jlb.setForeground(Color.black);
+                   jlb.setFont(new Font("Consolas",Font.BOLD, 30));
+                   jlb.setBounds(120,30, 150, 100);
+                   fr.add(jlb);
+            //User2
+                   JLabel user2 = new JLabel();
+                   user2.setText("USERNAME");
+                   user2.setFont(new Font("Courier", Font.BOLD,12));
+                   user2.setBounds(50,80, 100, 100);
+                   fr.add(user2);
+                   // username textfield
+                   textField = new JTextField();
+                   textField.setBounds(50, 150, 250, 30);
+                   fr.add(textField);
+            // Password
+                   JLabel pw2 = new JLabel();
+                   pw2.setText("PASSWORD");
+                   pw2.setFont(new Font("Courier", Font.BOLD,12));
+                   pw2.setBounds(50,150, 100, 100);
+                   fr.add(pw2);
+                   passwordField = new JPasswordField();
+                   passwordField.setBounds(50, 220, 250, 30);
+                   fr.add(passwordField);
+             //Sign In
+                   JButton signin = new JButton("Sign In");
+                   signin.setForeground(Color.WHITE);
+                   signin.setBackground(new Color(241, 57, 83));
+                   signin.setBounds(50, 300, 250, 30);
+                   fr.add(signin);
+		}    
         });
+
+
         
         // checking for empty field
         btn_signUp.addActionListener(new ActionListener() {
