@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Account;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -38,16 +39,18 @@ import javax.swing.border.EmptyBorder;
  */
 public class LoginSignUp extends JFrame implements ActionListener{
     // Variables declaration
-     private JPanel contentPane;
-     private JTextField textField;
-     private JTextField textField_1;
-     private JPasswordField passwordField;
-     private JPasswordField passwordField_1;
+     JPanel contentPane;
+     public JTextField textField;
+     public JPasswordField passwordField;
+     JPasswordField passwordField_1;
+     Account model;
+     JButton signin;
+     JButton btn_signUp;
     
-
     public LoginSignUp(){
        setBackground(Color.GREEN);
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       setLocationRelativeTo(null);
        setBounds(100, 100, 729, 476);
        contentPane = new JPanel();
        contentPane.setBackground(Color.WHITE);
@@ -84,16 +87,17 @@ public class LoginSignUp extends JFrame implements ActionListener{
         JLabel lb_member = new JLabel("Already a member?");
         JLabel lb_signin = new JLabel("Log in");
         lb_signin.setFont(new Font("Courier", Font.BOLD,14));
-        lb_member.setBounds(450, 347, 133, 14);
-        lb_signin.setBounds(565, 347, 133, 14);
+        lb_member.setBounds(450, 290, 133, 14);
+        lb_signin.setBounds(565, 290, 133, 14);
         contentPane.add(lb_member);
         contentPane.add(lb_signin);
         
-	JButton btn_signUp = new JButton("Sign Up");
+	btn_signUp = new JButton("Sign Up");
         
+ 
 	btn_signUp.setForeground(Color.WHITE);
 	btn_signUp.setBackground(new Color(241, 57, 83));
-	btn_signUp.setBounds(395, 380, 283, 36);
+	btn_signUp.setBounds(395, 340, 283, 36);
 	contentPane.add(btn_signUp);
 	
         // username textfield
@@ -107,31 +111,22 @@ public class LoginSignUp extends JFrame implements ActionListener{
 	lblUsername.setBounds(395, 58, 114, 14);
 	contentPane.add(lblUsername);
         
-	// email	
-	JLabel lblEmail = new JLabel("EMAIL");
-	lblEmail.setBounds(395, 132, 54, 14);
-	contentPane.add(lblEmail);
-        
 	//email textfield	
-	textField_1 = new JTextField();
-	textField_1.setColumns(10);
-	textField_1.setBounds(395, 157, 283, 36);
-	contentPane.add(textField_1);
-		
+			
 	JLabel lblPassword = new JLabel("PASSWORD");
-	lblPassword.setBounds(395, 204, 96, 14);
+	lblPassword.setBounds(395, 130, 96, 14);
 	contentPane.add(lblPassword);
 		
 	JLabel lblRepeatPassword = new JLabel("REPEAT PASSWORD");
-	lblRepeatPassword.setBounds(395, 275, 133, 14);
+	lblRepeatPassword.setBounds(395, 200, 133, 14);
 	contentPane.add(lblRepeatPassword);
 		
 	passwordField = new JPasswordField();
-	passwordField.setBounds(395, 229, 283, 36);
+	passwordField.setBounds(395, 154, 283, 36);
 	contentPane.add(passwordField);
 		
 	passwordField_1 = new JPasswordField();
-	passwordField_1.setBounds(395, 293, 283, 36);
+	passwordField_1.setBounds(395, 226, 283, 36);
 	contentPane.add(passwordField_1);
 	
         // close button
@@ -200,11 +195,18 @@ public class LoginSignUp extends JFrame implements ActionListener{
                    passwordField.setBounds(50, 220, 250, 30);
                    fr.add(passwordField);
              //Sign In
-                   JButton signin = new JButton("Sign In");
+                   signin = new JButton("Sign In");
                    signin.setForeground(Color.WHITE);
                    signin.setBackground(new Color(241, 57, 83));
                    signin.setBounds(50, 300, 250, 30);
                    fr.add(signin);
+                   // checking for empty field
+                    signin.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        checkBlank();
+                    }
+       });
 		}    
         });
 
@@ -226,21 +228,33 @@ public class LoginSignUp extends JFrame implements ActionListener{
 }
         
     private boolean checkBlank(){
-        if(textField.getText().trim().equals("") || passwordField_1.getText().trim().equals(null) || textField_1.getText().trim().equals(null) ){
+        if(textField.getText().trim().equals("") || passwordField.getText().trim().equals(null) || passwordField_1.getText().trim().equals(null)  ){
             JOptionPane.showMessageDialog(contentPane, "field can't be empty");
             return false;
         }
         return true;     
     }
     
-    public static void main(String[] args) { 
-        new LoginSignUp().setVisible(true);  
-    }
-
-    @Override
+     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+  
+    public Account getUser(){
+        model = new Account(textField.getText(), passwordField.getText());
+        return model;      
+    }
+  
+    public void showMessage(String msg){
+        JOptionPane.showMessageDialog(this, msg);
+    }
+  
+    public void addLoginListener(ActionListener log) {
+          signin.addActionListener(log);
     }
     
+    public static void main(String[] args) { 
+        
+        new LoginSignUp().setVisible(true);  
+    } 
 }
 

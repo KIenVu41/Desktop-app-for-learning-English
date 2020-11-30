@@ -18,15 +18,13 @@ import javax.swing.JOptionPane;
 public class Account {
     private String password;
     private String userName;
-    private String useremail;
     
     public Account() {
     }
 
-    public Account(String pass, String userName, String email) {
-        this.password = pass;
+    public Account(String userName, String pass) {
         this.userName = userName;
-        this.useremail = email;
+        this.password = pass;
     }
 
     public void setPass(String pass) {
@@ -36,12 +34,7 @@ public class Account {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
-    }
-    
-    
+ 
     public String getPass() {
         return password;
     }
@@ -50,31 +43,8 @@ public class Account {
         return userName;
     }
 
-    public String getUseremail() {
-        return useremail;
-    }
     
     /*get information from the database and then compare it with the imported data*/
-    public void getCredentials(){
-        try{
-                String dbURL = "jdbc:sqlserver://localhost;databaseName=test;user=sa;password=123456";
-                Connection conn = DriverManager.getConnection(dbURL);
-                String sql = "select * from Userinfor\n"
-                        + "where usernames  = ? and passwords = ?";
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setString(1, username_login.getText());
-                ps.setString(2, password_login.getText());
-                
-                ResultSet rs = ps.executeQuery();
-                if(rs.next()){
-                    JOptionPane.showMessageDialog(this, "Dang nhap thanh cong");
-                }else{
-                    JOptionPane.showMessageDialog(this, "Dang nhap that bai");
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-    }
     
     public boolean checkLogin(String name, String pass){
         return (userName == name && password == pass);
