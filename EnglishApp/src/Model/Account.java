@@ -5,11 +5,6 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,13 +37,7 @@ public class Account {
     public String getUserName() {
         return userName;
     }
-
-    
-    /*get information from the database and then compare it with the imported data*/
-    
-    public boolean checkLogin(String name, String pass){
-        return (userName == name && password == pass);
-    }
+  
 }
 
 
