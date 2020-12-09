@@ -1,6 +1,4 @@
 
-import Controller.LoginControl;
-import View.Signin;
 import View.Signup;
 
 /*
@@ -13,6 +11,8 @@ import View.Signup;
  *
  * @author Admin
  */
+
+
 public class App {
     public static void main(String[] args) {
         Signup su = new Signup();

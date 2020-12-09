@@ -6,11 +6,11 @@
 package Controller;
 
 import Model.Account;
+import Model.SubAns;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -33,13 +33,13 @@ public class DAO {
          String query = "INSERT INTO userdb(userName, password) VALUES(?,?)";
          try{
              PreparedStatement stmt = conn.prepareStatement(query);
-                 stmt.setString(1, user.getUserName());
-                 stmt.setString(2, user.getPass());
+             stmt.setString(1, user.getUserName());
+             stmt.setString(2, user.getPass());
                  
-                 // excute
-                 stmt.executeUpdate();
-                 conn.close();
-                 return true;
+              // excute
+             stmt.executeUpdate();
+             conn.close();
+             return true;
          }catch(Exception e){
               e.printStackTrace();
          }
@@ -53,15 +53,61 @@ public class DAO {
 + user.getPass() + "'";
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(query);
-
-            if (rs.next()) {
-              return true;
+         
+   
+        if(rs.next()) {
+            if(rs.getString("userName").equals("") && rs.getString("password").equals("")){
+                return false;
+            }else{
+                return true;
             }
-           
+        }
+            
             conn.close();
         }catch(Exception e) {
             throw e;
         }
         return false;
       }
+    
+    // insert submit answers into db
+    public boolean sumbitAns(SubAns sub){
+        String query = "INSERT INTO Submit(ID, submitAns) VALUES(?,?)";
+         try{
+             PreparedStatement stmt = conn.prepareStatement(query);
+             stmt.setString(1, String.valueOf(sub.getId()));
+             stmt.setString(2, sub.getSubmit());
+             
+             // excute
+             stmt.executeUpdate();
+             conn.close();
+             return true;
+         }catch(Exception e){
+              e.printStackTrace();
+         }
+         return false;
+    }
+    
+    public void reset(int id){
+        try{
+            PreparedStatement st = conn.prepareStatement("DELETE FROM Submit WHERE ID = " + id + ";");
+            st.executeUpdate();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    public int checkAns(){
+        String query = "select count(ans) as score from Submit as sb, Answers as a where sb.ID = a.ID";
+        try{
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next());
+                int score  = rs.getInt("score");
+            return score;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
+    }
 }

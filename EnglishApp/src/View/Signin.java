@@ -100,10 +100,10 @@ public class Signin extends JFrame implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     checkBlank();
                 }
-       });
-        
+       });   
        signIn.addActionListener(this);
-    }            
+    }   
+    
     // checking the empty field
      public void checkBlank(){
          if(username.getText().equals("") || pass.getText().equals("")){
@@ -139,6 +139,8 @@ public class Signin extends JFrame implements ActionListener{
         DAO d = new DAO();
          if(d.checkUser(users)){
                 showMessage("Welcome!");
+                new mainFrame().setVisible(true);
+                setVisible(false);
           }else{
                  showMessage("Invalid username and/or password!");
           }
