@@ -7,10 +7,12 @@ package View;
 
 import Controller.DAO;
 import Model.SubAns;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,18 +25,16 @@ import javax.swing.JRadioButton;
  */
 public class test extends JFrame implements ActionListener{
     private static final long serialVersionUID = 1L;
-
-	JLabel label;
-	JRadioButton radioButton[] = new JRadioButton[5];
-	JButton btnNext, btnSub;
-	ButtonGroup bg;
-	int count = 0, current = 0, x = 1, y = 1, now = 0;
-	int m[] = new int[10];
-        SubAns sub;
-        
+	private JLabel label;
+	private JRadioButton radioButton[] = new JRadioButton[5];
+	private JButton btnNext, btnSub;
+        private JLabel exit;
+	private ButtonGroup bg;
+	private int count = 0, current = 0;
+        private SubAns sub;
+        private static String username;
 	// create jFrame with radioButton and JButton
-	public test(String s) {
-		super(s);
+	public test(String ten) {
 		label = new JLabel();
 		add(label);
 		bg = new ButtonGroup();
@@ -45,23 +45,73 @@ public class test extends JFrame implements ActionListener{
 		}
 		btnNext = new JButton("Next");
 		btnSub = new JButton("Submit");
+                exit = new JLabel("Exit");
+                
+                btnNext.setBackground(Color.red);
+                btnNext.setForeground(Color.white);
+                btnSub.setBackground(Color.red);
+                btnSub.setForeground(Color.white);
+                
 		btnNext.addActionListener((ActionListener) this);
 		btnSub.addActionListener((ActionListener) this);
+                exit.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        exit_Action();
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                         //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                         //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                     //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                         //To change body of generated methods, choose Tools | Templates.
+                    }
+                });
+                
 		add(btnNext);
 		add(btnSub);
+                add(exit);
 		set();
 		label.setBounds(30, 40, 900, 50);
-		radioButton[0].setBounds(50, 80, 450, 20);
+		radioButton[0].setBounds(50, 80, 200, 20);
 		radioButton[1].setBounds(50, 110, 200, 20);
 		radioButton[2].setBounds(50, 140, 200, 20);
 		radioButton[3].setBounds(50, 170, 200, 20);
+                
+                for(int i = 0; i < 4; i++){
+                    radioButton[i].setBackground(new Color(57, 75, 160));
+                    radioButton[i].setForeground(new Color(255, 240, 0));
+                }
+                
 		btnNext.setBounds(270, 240, 100, 30);
 		btnSub.setBounds(100, 240, 100, 30);
+                exit.setBounds(400, 20, 100, 30);
+                exit.setForeground(new Color(255, 240, 0));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		setLocation(250, 100);
 		setVisible(true);
 		setSize(500, 350);
+                setResizable(false);
+                setLocationRelativeTo(null);
+                getContentPane().setBackground(new Color(57, 75, 160));
+                label.setForeground(new Color(255, 240, 0));
+                getContentPane().setForeground(new Color(255, 240, 0));
+                username= ten;
+                //getContentPane().setBackground(Color.red);
 	}
 
 	// handle all actions based on event
@@ -76,6 +126,7 @@ public class test extends JFrame implements ActionListener{
 				btnNext.setText("Result");
 			}
 		}
+                
                 if (e.getSource() == btnSub) {
                         btnSubmit_actionperformed();
                 }
@@ -87,10 +138,16 @@ public class test extends JFrame implements ActionListener{
                         int score = d.checkAns();
 			JOptionPane.showMessageDialog(this, "correct answers= " + score);
                         btnResult_reset();
-                        System.exit(0);
-		}
+                   
+                }
+               
 	}
-
+        
+        public void exit_Action(){
+            setVisible(false);
+            new mainFrame(username).setVisible(true);
+        }
+        
 	// SET Questions with options
 	void set() {
                 radioButton[4].setSelected(true);
@@ -425,72 +482,15 @@ public class test extends JFrame implements ActionListener{
 		for (int i = 0, j = 0; i <= 90; i += 30, j++)
 			radioButton[j].setBounds(50, 80 + i, 200, 20);
 	}
-         /*
-	// declare right answers.
-	boolean check() {      
-            DAO dao = new DAO();
-		if (current == 0)
-			return (radioButton[3].isSelected());
-		if (current == 1)
-			return (radioButton[3].isSelected());
-		if (current == 2)
-			return (radioButton[3].isSelected());
-		if (current == 3)
-			return (radioButton[0].isSelected());
-		if (current == 4)
-			return (radioButton[3].isSelected());
-		if (current == 5)
-			return (radioButton[1].isSelected());
-		if (current == 6)
-			return (radioButton[1].isSelected());
-		if (current == 7)
-			return (radioButton[1].isSelected());
-		if (current == 8)
-			return (radioButton[3].isSelected());
-		if (current == 9)
-			return (radioButton[0].isSelected());
-                if (current == 10)
-			return (radioButton[1].isSelected());
-                if (current == 11)
-			return (radioButton[3].isSelected());
-                if (current == 12)
-			return (radioButton[2].isSelected());
-                if (current == 13)
-			return (radioButton[2].isSelected());
-                if (current == 14)
-			return (radioButton[1].isSelected());
-                if (current == 15)
-			return (radioButton[3].isSelected());
-                if (current == 16)
-			return (radioButton[1].isSelected());
-                if (current == 17)
-			return (radioButton[2].isSelected());
-                if (current == 18)
-			return (radioButton[0].isSelected());
-                if (current == 19)
-			return (radioButton[3].isSelected());
-                if (current == 20)
-			return (radioButton[0].isSelected());
-                if (current == 21)
-			return (radioButton[2].isSelected());
-                if (current == 22)
-			return (radioButton[0].isSelected());
-                if (current == 23)
-			return (radioButton[3].isSelected());
-                if (current == 24)
-			return (radioButton[2].isSelected());                
-		return false;
-	}
-        
-       */
+       
 
 	public static void main(String s[]) {
-		new test("Online Test App");
+		new test(username);
 	}
         
         // get submit answers
         public SubAns getUserSubmit(){
-            sub = new SubAns(current + 1, bg.getSelection().getActionCommand());
+            sub = new SubAns(current + 1, bg.getSelection().getActionCommand(), username);
             return sub;
         }
         
@@ -510,4 +510,7 @@ public class test extends JFrame implements ActionListener{
                  d.reset(i);
             }       
         }
+        
+       
+    
 }

@@ -12,13 +12,15 @@ package Model;
 public class SubAns {
     private int id;
     private String submit;
-
+    private String userName;
+    
     public SubAns() {
     }
 
-    public SubAns(int id, String submit) {
+    public SubAns(int id, String submit, String userName) {
         this.id = id;
         this.submit = submit;
+        this.userName = userName;
     }
 
     public int getId() {
@@ -35,6 +37,14 @@ public class SubAns {
 
     public void setSubmit(String submit) {
         this.submit = submit;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
     
     

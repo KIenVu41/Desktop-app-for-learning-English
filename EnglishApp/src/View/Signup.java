@@ -32,20 +32,21 @@ import javax.swing.border.EmptyBorder;
  */
 public class Signup extends JFrame implements ActionListener{
     // Variables declaration
-     JFrame fr;
-     JPanel contentPane;
-     public JTextField textField, txtusername;
-     public JPasswordField passwordField, pfpass;
-     JPasswordField passwordField_1;
-     Account model;
-     JButton signin;
-     JButton btn_signUp;
+     private JFrame fr;
+     private JPanel contentPane;
+     private JTextField textField, txtusername;
+     private JPasswordField passwordField, pfpass;
+     private JPasswordField passwordField_1;
+     private Account model;
+     private JButton signin;
+     private JButton btn_signUp;
     
     public Signup(){
        setBackground(Color.GREEN);
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        setLocationRelativeTo(null);
-       setBounds(100, 100, 729, 476);
+       setBounds(600, 300, 729, 476);
+       setResizable(false);
        contentPane = new JPanel();
        contentPane.setBackground(Color.WHITE);
        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -137,18 +138,10 @@ public class Signup extends JFrame implements ActionListener{
 		public void mouseClicked(MouseEvent arg0) {
                     setVisible(false);
                     Signin si = new Signin();
-                    si.setVisible(true);
-                                         
+                    si.setVisible(true);                                      
 		}              
         });
    
-        // checking for empty field
-        btn_signUp.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-                checkBlank();
-           }
-       });
         
         btn_signUp.addActionListener(this);
         
@@ -160,15 +153,22 @@ public class Signup extends JFrame implements ActionListener{
       
 }
         
-    private boolean checkBlank(){
+    public boolean checkBlank(){
         if(textField.getText().trim().equals("") || passwordField.getText().trim().equals(null) || passwordField_1.getText().trim().equals(null)  ){
-            JOptionPane.showMessageDialog(contentPane, "field can't be empty");
             return false;
         }
         return true;     
     }
     
-     @Override
+    public boolean checkLength(){
+        if(textField.getText().trim().length() < 5){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         if(btn.equals(btn_signUp)){
@@ -179,13 +179,22 @@ public class Signup extends JFrame implements ActionListener{
     public void btnSubmit_actionperformed(){
          model = getUser();
          DAO d = new DAO();
-         if(d.Signup(model)){
-             showMessage("Succes!");
-             new Signin().setVisible(true);
-             setVisible(false);
-         }else{
-             showMessage("Failed!");
-         }      
+         
+        if(checkBlank()){
+            if(checkLength()){
+                if(d.Signup(model)){
+                    showMessage("Succes!");
+                    new Signin().setVisible(true);
+                    setVisible(false);
+                }else{
+                    showMessage("Failed!");
+                }
+            }else{
+                showMessage("Usernames must be at least 5 characters ");
+            }
+        }else{
+            showMessage("field can't be empty");
+        }   
     }
        
     public Account getUser(){

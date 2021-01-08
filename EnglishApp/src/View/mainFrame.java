@@ -35,40 +35,54 @@ public class mainFrame extends JFrame implements ActionListener{
     JMenu home;
     JMenu voca;
     JMenu grammar;
-    JMenu listen;
+    JMenu dic;
     JMenu test;
     JMenu exit;
- 
+    JLabel lb;
+    ImageIcon img;
+    JPanel p1;
     
-    public mainFrame(){
+    public mainFrame(String ten){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBounds(30,200,500,200);
+        setSize(1400,800);
         setTitle("EnglishApp");
         setVisible(true);
+        setLayout(new BorderLayout());
         setResizable(false);
+        setLocationRelativeTo(null);
         
         JMenuBar menu = new JMenuBar();
         home = new JMenu("Home");
-        voca = new JMenu("Dictionary");
+        voca = new JMenu("Vocabular");
         grammar = new JMenu("Grammar");
-        listen = new JMenu("Listen");
+        dic = new JMenu("Dictionary");
         test = new JMenu("Test");
         exit = new JMenu("Exit");
         
+     
         menu.add(home);
         menu.add(voca);
+        menu.add(dic);
         menu.add(grammar);
-        menu.add(listen);
+        menu.add(dic);
         menu.add(test);
         menu.add(exit);
      
         add(menu, BorderLayout.NORTH);
-
+        
+        img = new ImageIcon(mainFrame.class.getResource("/images/space.jpg"));
+     
+        lb = new JLabel();
+        lb.setIcon(img);
+        lb.setBounds(0,0, 641, 618);
+        add(lb);
+        
         test.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {     
-                   test t = new test("eng");
+                   test t = new test(ten);
                    t.setVisible(true);
+                   setVisible(false);
             }
 
             @Override
@@ -115,10 +129,96 @@ public class mainFrame extends JFrame implements ActionListener{
             public void mouseExited(MouseEvent e) {
             }
         });
+        
+        voca.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                 new Vocabulary(ten).setVisible(true);
+                 setVisible(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        dic.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Dictionary(ten);
+                setVisible(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+               //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        grammar.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Grammar(ten).setVisible(true);
+                setVisible(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+              
+            }
+        });
     }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
       
     }
-    		
+    	
+    
 }

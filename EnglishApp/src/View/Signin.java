@@ -28,10 +28,10 @@ import javax.swing.JTextField;
  * @author Admin
  */
 public class Signin extends JFrame implements ActionListener{
-    JButton signIn;
-    JTextField username;
-    JPasswordField pass;
-    Account users;
+    private JButton signIn;
+    private JTextField username;
+    private JPasswordField pass;
+    private Account users;
    
     public Signin(){       
         setSize(380, 476);
@@ -47,7 +47,8 @@ public class Signin extends JFrame implements ActionListener{
         lb_member.setBounds(70, 270, 160, 14);
         lb_signUp.setBounds(225, 270, 133, 14);
         add(lb_member);
-        add(lb_signUp);              
+        add(lb_signUp); 
+        
         //  sign up if you don't have an account
         lb_signUp.addMouseListener(new MouseAdapter() {
             @Override
@@ -87,32 +88,28 @@ public class Signin extends JFrame implements ActionListener{
         pass = new JPasswordField();
         pass.setBounds(50, 220, 250, 30);
         add(pass);
+        
         //Sign In
         signIn = new JButton("Sign In");
         signIn.setForeground(Color.WHITE);
         signIn.setBackground(new Color(241, 57, 83));
         signIn.setBounds(50, 300, 250, 30);
         add(signIn);
-        
-        // checking for empty field
-        signIn.addActionListener(new ActionListener() {
-           @Override
-                public void actionPerformed(ActionEvent e) {
-                    checkBlank();
-                }
-       });   
+      
        signIn.addActionListener(this);
     }   
     
     // checking the empty field
-     public void checkBlank(){
+     public boolean checkBlank(){
          if(username.getText().equals("") || pass.getText().equals("")){
-             JOptionPane.showMessageDialog(this, "Field cant blank");
+             return false;
+         }else{
+             return true;
          }
      }
      
      // get username and password 
-     public Account getUserif(){
+    public Account getUserif(){
         users = new Account(username.getText(), pass.getText());
         return users;      
     }
@@ -137,13 +134,18 @@ public class Signin extends JFrame implements ActionListener{
     public void btnSignin_actionperformed() throws Exception{
         users = getUserif();
         DAO d = new DAO();
-         if(d.checkUser(users)){
-                showMessage("Welcome!");
-                new mainFrame().setVisible(true);
+        if(checkBlank()){
+            if(d.checkUser(users)){
+                showMessage("Welcome");
+                new mainFrame(username.getText()).setVisible(true);
                 setVisible(false);
           }else{
-                 showMessage("Invalid username and/or password!");
+                showMessage("Invalid username and/or password!");
           }
+        }else{
+             JOptionPane.showMessageDialog(this, "Field cant blank");
+        }
+        
     }
 }
 
